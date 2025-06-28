@@ -25,6 +25,10 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
             $table->unsignedInteger('stock_quantity')->default(0);
             $table->timestamps();
+
+            $table->index(['category_id', 'is_active']);
+            $table->index(['is_featured', 'is_active']);
+            $table->index('base_price');
         });
     }
 
