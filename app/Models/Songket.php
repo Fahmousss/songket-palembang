@@ -65,7 +65,7 @@ class Songket extends Model
     public function primaryImage(): Attribute
     {
         return Attribute::make(
-            get: fn(array $value) => $value[0] ?? '/images/songket-placeholder.jpg'
+            get: fn() => $this->images[0] ?? '/images/songket-placeholder.jpg'
         );
     }
 

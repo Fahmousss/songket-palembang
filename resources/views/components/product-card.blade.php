@@ -95,7 +95,7 @@
         </div>
 
         <a href="{{ route('catalog.show', $songket) }}"
-            class="block w-full bg-amber-500 hover:bg-amber-600 text-white text-center py-3 rounded-lg font-semibold transition-colors group-hover:bg-amber-600 flex items-center justify-center">
+            class=" w-full bg-amber-500 hover:bg-amber-600 text-white text-center py-3 rounded-lg font-semibold transition-colors group-hover:bg-amber-600 flex items-center justify-center">
             <x-icon name="heroicon-o-eye" class="h-4 w-4 mr-2" />
             View Details
         </a>
