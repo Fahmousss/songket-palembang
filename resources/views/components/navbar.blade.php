@@ -18,8 +18,7 @@
                     <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
                         {{ __('Home') }}
                     </x-nav-link>
-                    {{-- <x-nav-link :href="route('catalog.index')" :active="request()->routeIs('catalog.*')"> --}}
-                    <x-nav-link :href="route('home')" :active="request()->routeIs('catalog.*')">
+                    <x-nav-link :href="route('catalog.index')" :active="request()->routeIs('catalog.*')">
                         {{ __('Catalog') }}
                     </x-nav-link>
                     {{-- <x-nav-link :href="route('about')" :active="request()->routeIs('about')"> --}}
@@ -111,14 +110,11 @@
             <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home')">
                 {{ __('Home') }}
             </x-responsive-nav-link>
-            {{-- <x-responsive-nav-link :href="route('catalog.index')" :active="request()->routeIs('catalog.*')"> --}}
-            <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('catalog.*')">
+            <x-responsive-nav-link :href="route('catalog.index')" :active="request()->routeIs('catalog.*')">
                 {{ __('Catalog') }}
             </x-responsive-nav-link>
             {{-- <x-responsive-nav-link :href="route('about')" :active="request()->routeIs('about')"> --}}
-            <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('about')">
-                {{ __('About') }}
-            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="'/'"> {{ __('About') }} </x-responsive-nav-link>
         </div>
 
         @auth

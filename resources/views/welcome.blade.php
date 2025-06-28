@@ -17,8 +17,7 @@
                         centuries of heritage.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                        {{-- <a href="{{ route('catalog.index') }}" --}}
-                        <a href="{{ route('home') }}"
+                        <a href="{{ route('catalog.index') }}"
                             class="bg-white text-amber-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-amber-50 transition-colors shadow-lg">
                             Explore Collection
                         </a>
@@ -60,8 +59,7 @@
             </div>
 
             <div class="text-center mt-12">
-                {{-- <a href="{{ route('catalog.index') }}" --}}
-                <a href="{{ route('home') }}"
+                <a href="{{ route('catalog.index') }}"
                     class="inline-flex items-center bg-amber-500 hover:bg-amber-600 text-white px-8 py-3 rounded-lg font-semibold transition-colors">
                     View All Products
                     <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -126,8 +124,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 @foreach ($categories as $category)
-                    {{-- <a href="{{ route('catalog.index', ['category' => $category->slug]) }}" --}}
-                    <a href="{{ route('home') }}"
+                    <a href="{{ route('catalog.index', ['category' => $category->slug]) }}"
                         class="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow">
                         <div class="aspect-square bg-gradient-to-br from-amber-400 to-orange-500">
                             <img src="{{ $category->image ?? '/placeholder.svg?height=300&width=300' }}"
