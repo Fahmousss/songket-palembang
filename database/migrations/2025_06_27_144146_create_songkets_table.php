@@ -13,6 +13,17 @@ return new class extends Migration
     {
         Schema::create('songkets', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->text('description')->nullable();
+            $table->decimal('base_price',  10, 2)->default(0.00);
+            $table->json('colors')->nullable();
+            $table->json('sizes')->nullable();
+            $table->json('images')->nullable();
+            $table->boolean('is_featured')->default(false);
+            $table->boolean('is_active')->default(true);
+            $table->unsignedInteger('stock_quantity')->default(0);
             $table->timestamps();
         });
     }
