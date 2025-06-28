@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -45,17 +47,44 @@ class Songket extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function images(): Attribute
+    public function cartItems(): HasMany
+    {
+        return $this->hasMany(CartItem::class);
+    }
+
+    public function orderItems(): HasMany
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    public function primaryImage(): Attribute
     {
         return Attribute::make(
             get: fn(array $value) => $value[0] ?? '/images/songket-placeholder.jpg'
         );
     }
 
-    public function base_price(): Attribute
+    public function basePrice(): Attribute
     {
         return Attribute::make(
             get: fn($value) => 'Rp ' . number_format($value, 0, ',', '.')
         );
+    }
+
+    #[Scope]
+    protected function active(Builder $query): void
+    {
+        $query->where('is_active', true);
+    }
+
+    #[Scope]
+    protected function featured(Builder $query): void
+    {
+        $query->where('is_featured', true);
     }
 }
