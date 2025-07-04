@@ -69,10 +69,10 @@ class Songket extends Model
         );
     }
 
-    public function basePrice(): Attribute
+    public function formattedPrice(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => 'Rp ' . number_format($value, 0, ',', '.')
+            get: fn() => 'Rp ' . number_format($this->base_price, 0, ',', '.')
         );
     }
 

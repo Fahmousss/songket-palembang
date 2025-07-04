@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Cart\AddCartItemController;
+use App\Http\Controllers\Cart\CartController;
+use App\Http\Controllers\Cart\ClearCartController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
@@ -21,6 +24,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::prefix('cart')->name('cart.')->group(function () {
+        Route::get('/', [CartController::class, 'index'])->name('index');
+        Route::post('/add', AddCartItemController::class)->name('add');
+        Route::patch('/{cartItem}', [CartController::class, 'update'])->name('update');
+        Route::delete('/{cartItem}', [CartController::class, 'destroy'])->name('destroy');
+        Route::delete('/', ClearCartController::class)->name('clear');
+    });
 });
 
 require __DIR__ . '/auth.php';

@@ -45,7 +45,7 @@ class CartItem extends Model
     public function formattedTotalPrice(): Attribute
     {
         return Attribute::make(
-            get: fn() => 'Rp ' . number_format($this->totalPrice->value, 0, ',', '.'),
+            get: fn() => 'Rp ' . number_format($this->totalPrice, 0, ',', '.'),
         );
     }
 }

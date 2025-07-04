@@ -203,6 +203,55 @@
                             @endif
                         </dl>
                     </div>
+                    <!-- Success Modal -->
+                    <x-modal name="cart-success" :show="false" max-width="md">
+                        <div class="p-6">
+                            <div
+                                class="flex items-center justify-center w-12 h-12 mx-auto bg-green-100 rounded-full mb-4">
+                                <x-icon name="heroicon-o-check-circle" class="w-6 h-6 text-green-600" />
+                            </div>
+
+                            <div class="text-center">
+                                <h3 class="text-lg font-medium text-gray-900 mb-2">Added to Cart!</h3>
+                                <p class="text-sm text-gray-600 mb-6">Product has been successfully added to your cart.
+                                </p>
+
+                                <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                                    <button @click="$dispatch('close-modal', 'cart-success')"
+                                        class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg font-medium transition-colors">
+                                        Continue Shopping
+                                    </button>
+                                    <a href="{{ route('cart.index') }}"
+                                        class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-lg font-medium transition-colors">
+                                        View Cart
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </x-modal>
+                    <!-- Error Modal -->
+                    <x-modal name="cart-error" :show="false" max-width="md">
+                        <div class="p-6">
+                            <div
+                                class="flex items-center justify-center w-12 h-12 mx-auto bg-red-100 rounded-full mb-4">
+                                <x-icon name="heroicon-o-x-circle" class="w-6 h-6 text-red-600" />
+                            </div>
+
+                            <div class="text-center">
+                                <h3 class="text-lg font-medium text-gray-900 mb-2">Error</h3>
+                                <p class="text-sm text-gray-600 mb-6" x-text="errorMessage">There was an error adding
+                                    the product to
+                                    your cart.</p>
+
+                                <div class="flex justify-center">
+                                    <button @click="$dispatch('close-modal', 'cart-error')"
+                                        class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-medium transition-colors">
+                                        Close
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </x-modal>
                 </div>
             </div>
 
@@ -253,57 +302,9 @@
         </div>
     </div>
 
-    <!-- Success Modal -->
-    <x-modal name="cart-success" :show="false" max-width="md">
-        <div class="p-6">
-            <div class="flex items-center justify-center w-12 h-12 mx-auto bg-green-100 rounded-full mb-4">
-                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-            </div>
 
-            <div class="text-center">
-                <h3 class="text-lg font-medium text-gray-900 mb-2">Added to Cart!</h3>
-                <p class="text-sm text-gray-600 mb-6">Product has been successfully added to your cart.</p>
 
-                <div class="flex flex-col sm:flex-row gap-3 justify-center">
-                    <button @click="$dispatch('close-modal', 'cart-success')"
-                        class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg font-medium transition-colors">
-                        Continue Shopping
-                    </button>
-                    <a href="{{ route('cart.index') }}"
-                        class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-lg font-medium transition-colors">
-                        View Cart
-                    </a>
-                </div>
-            </div>
-        </div>
-    </x-modal>
 
-    <!-- Error Modal -->
-    <x-modal name="cart-error" :show="false" max-width="md">
-        <div class="p-6">
-            <div class="flex items-center justify-center w-12 h-12 mx-auto bg-red-100 rounded-full mb-4">
-                <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
-                    </path>
-                </svg>
-            </div>
-
-            <div class="text-center">
-                <h3 class="text-lg font-medium text-gray-900 mb-2">Error</h3>
-                <p class="text-sm text-gray-600 mb-6" x-text="errorMessage">There was an error adding the product to
-                    your cart.</p>
-
-                <div class="flex justify-center">
-                    <button @click="$dispatch('close-modal', 'cart-error')"
-                        class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-medium transition-colors">
-                        Close
-                    </button>
-                </div>
-            </div>
-        </div>
-    </x-modal>
 
     <script>
         function productDetail() {
@@ -321,8 +322,10 @@
                 canAddToCart() {
                     const needsColor = {{ count($songket->colors ?? []) }} > 0;
                     const needsSize = {{ count($songket->sizes ?? []) }} > 0;
+                    const quantityValid = this.quantity > 0 && this.quantity <= {{ $songket->stock_quantity }};
 
-                    return (!needsColor || this.selectedColor) && (!needsSize || this.selectedSize);
+                    return (!needsColor || this.selectedColor) && (!needsSize || this.selectedSize) &&
+                        quantityValid;
                 },
 
                 formatPrice(price) {
@@ -330,13 +333,15 @@
                 },
 
                 async addToCart() {
-                    if (!this.canAddToCart()) return;
+                    if (!this.canAddToCart()) return
+
 
                     try {
                         const response = await fetch('{{ route('cart.add') }}', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
+                                'Accept': 'application/json',
                                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
                             },
                             body: JSON.stringify({

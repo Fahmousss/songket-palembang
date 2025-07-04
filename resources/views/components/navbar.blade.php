@@ -32,18 +32,13 @@
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 @auth
                     <!-- Cart Icon -->
-                    {{-- <a href="{{ route('cart.index') }}" --}}
-                    <a href="{{ route('home') }}"
+                    <a href="{{ route('cart.index') }}"
                         class="relative p-2 text-gray-600 hover:text-amber-600 transition-colors mr-4">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5 6m0 0h9m-9 0V19a2 2 0 002 2h9a2 2 0 002-2v-4">
-                            </path>
-                        </svg>
+                        <x-icon name='heroicon-o-shopping-cart' class="h-6 w-6" />
                         @if (auth()->user()->cartItems()->count() > 0)
                             <span
                                 class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                                {{ auth()->user()->cartItems()->sum('quantity') }}
+                                {{ auth()->user()->cartItems()->count() }}
                             </span>
                         @endif
                     </a>
@@ -125,8 +120,7 @@
                 </div>
 
                 <div class="mt-3 space-y-1">
-                    {{-- <x-responsive-nav-link :href="route('cart.index')"> --}}
-                    <x-responsive-nav-link :href="route('home')">
+                    <x-responsive-nav-link :href="route('cart.index')">
                         {{ __('Cart') }}
                     </x-responsive-nav-link>
                     {{-- <x-responsive-nav-link :href="route('orders.index')"> --}}
