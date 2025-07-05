@@ -8,7 +8,7 @@ enum OrderStatus: string
     case PENDING_PAYMENT = 'pending_payment';
     case READY_FOR_PICKUP = 'ready_for_pickup';
     case COMPLETED = 'completed';
-    case CANCELED = 'canceled';
+    case CANCELLED = 'canceled';
 
     public function label(): string
     {
@@ -17,7 +17,7 @@ enum OrderStatus: string
             self::PENDING_PAYMENT => 'Pending Payment',
             self::READY_FOR_PICKUP => 'Ready for Pickup',
             self::COMPLETED => 'Completed',
-            self::CANCELED => 'Canceled',
+            self::CANCELLED => 'Cancelled',
         };
     }
 
@@ -28,7 +28,7 @@ enum OrderStatus: string
             self::PENDING_PAYMENT => 'orange',
             self::READY_FOR_PICKUP => 'blue',
             self::COMPLETED => 'green',
-            self::CANCELED => 'red',
+            self::CANCELLED => 'red',
         };
     }
 }

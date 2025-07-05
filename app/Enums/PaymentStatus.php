@@ -6,7 +6,7 @@ enum PaymentStatus: string
 {
     case PENDING = 'pending';
     case WAITING_VERIFICATION = 'waiting_verification';
-    case PAID = 'paid';
+    case VERIFIED = 'verified';
     case FAILED = 'failed';
 
     public function label(): string
@@ -14,7 +14,7 @@ enum PaymentStatus: string
         return match ($this) {
             self::PENDING => 'Pending',
             self::WAITING_VERIFICATION => 'Waiting Verification',
-            self::PAID => 'Paid',
+            self::VERIFIED => 'Verified',
             self::FAILED => 'Failed',
         };
     }
@@ -23,8 +23,8 @@ enum PaymentStatus: string
     {
         return match ($this) {
             self::PENDING => 'yellow',
-            self::WAITING_VERIFICATION => 'orange',
-            self::PAID => 'green',
+            self::WAITING_VERIFICATION => 'blue',
+            self::VERIFIED => 'green',
             self::FAILED => 'red',
         };
     }

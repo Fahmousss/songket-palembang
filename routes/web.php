@@ -5,6 +5,11 @@ use App\Http\Controllers\Cart\CartController;
 use App\Http\Controllers\Cart\ClearCartController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Order\CheckoutController;
+use App\Http\Controllers\Order\ConfirmationController;
+use App\Http\Controllers\Order\OrderController;
+use App\Http\Controllers\Order\PaymentController;
+use App\Http\Controllers\Order\ProcessPaymentController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +36,21 @@ Route::middleware('auth')->group(function () {
         Route::patch('/{cartItem}', [CartController::class, 'update'])->name('update');
         Route::delete('/{cartItem}', [CartController::class, 'destroy'])->name('destroy');
         Route::delete('/', ClearCartController::class)->name('clear');
+    });
+
+    // Checkout routes
+    Route::prefix('checkout')->name('checkout.')->group(function () {
+        Route::get('/', [CheckoutController::class, 'index'])->name('index');
+        Route::post('/', [CheckoutController::class, 'store'])->name('store');
+        Route::get('/payment/{order}', PaymentController::class)->name('payment');
+        Route::post('/payment/{order}', ProcessPaymentController::class)->name('payment.process');
+        Route::get('/confirmation/{order}', ConfirmationController::class)->name('confirmation');
+    });
+
+    // Order routes
+    Route::prefix('orders')->name('orders.')->group(function () {
+        Route::get('/', [OrderController::class, 'index'])->name('index');
+        Route::get('/{order}', [OrderController::class, 'show'])->name('show');
     });
 });
 

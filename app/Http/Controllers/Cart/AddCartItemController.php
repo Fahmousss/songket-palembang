@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Cart;
 
 use App\Http\Controllers\Controller;
 use App\Models\Songket;
+use App\Rules\SufficientStock;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -20,7 +21,11 @@ class AddCartItemController extends Controller
 
             $request->validate([
                 'songket_id'        => ['required', 'exists:songkets,id'],
-                'quantity'          => ['required', 'integer', 'min:1', 'max:10'],
+                'quantity'          => ['required', 'integer', 'min:1', 'max:10',  new SufficientStock(
+                    $request->songket_id,
+                    $request->selected_color,
+                    $request->selected_size
+                )],
                 'selected_color'    => ['nullable', 'string'],
                 'selected_size'     => ['nullable', 'string'],
                 'price'             => ['required', 'numeric', 'min:0'],
@@ -66,7 +71,7 @@ class AddCartItemController extends Controller
             if ($request->expectsJson()) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Failed to add product to cart.',
+                    'message' => $e->getMessage(),
                     'error' => $e->getMessage(),
                 ], 500);
             }

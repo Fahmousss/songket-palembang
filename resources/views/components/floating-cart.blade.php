@@ -98,8 +98,7 @@
                             View Cart
                         </div>
                     </a>
-                    {{-- <a href="{{ route('checkout.index') }}" --}}
-                    <a href="{{ route('home') }}"
+                    <a href="{{ route('checkout.index') }}"
                         class="block w-full bg-amber-500 hover:bg-amber-600 text-white text-center py-2.5 rounded-lg font-semibold transition-colors shadow-sm hover:shadow-md">
                         <div class="flex items-center justify-center">
                             <x-icon name="heroicon-o-credit-card" class="h-4 w-4 mr-2" />

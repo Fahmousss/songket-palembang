@@ -1,6 +1,8 @@
 <x-app-layout>
     <x-slot name="title">Shopping Cart - Palembang Songket Store</x-slot>
 
+
+
     <div class="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
         <!-- Header Section -->
         <div class="bg-white shadow-sm border-b border-gray-200">
@@ -15,18 +17,15 @@
                             <x-icon name="heroicon-o-shield-check" class="h-4 w-4 mr-1" />
                             <span>Secure Checkout</span>
                         </div>
-                        <div class="flex items-center text-sm text-gray-500">
-                            <x-icon name="heroicon-o-truck" class="h-4 w-4 mr-1" />
-                            <span>Free Shipping</span>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <x-session-alerts />
             @if ($cartItems->count() > 0)
-                <div class="grid grid-cols-2 xl:grid-cols-3 gap-8" x-data="cartManager()">
+                <div class="grid grid-cols-2 xl:grid-cols-4 gap-8" x-data="cartManager()">
                     <!-- Cart Items Section -->
                     <div class="xl:col-span-3">
                         <!-- Cart Header -->
@@ -211,17 +210,6 @@
                                             <span class="font-semibold text-gray-900">Rp
                                                 {{ number_format($total, 0, ',', '.') }}</span>
                                         </div>
-                                        <div class="flex justify-between items-center py-2">
-                                            <span class="text-gray-600 flex items-center">
-                                                <x-icon name="heroicon-o-truck" class="h-4 w-4 mr-1" />
-                                                Shipping
-                                            </span>
-                                            <span class="font-semibold text-green-600">Free</span>
-                                        </div>
-                                        <div class="flex justify-between items-center py-2">
-                                            <span class="text-gray-600">Tax</span>
-                                            <span class="font-semibold text-gray-900">Included</span>
-                                        </div>
                                         <div class="border-t border-gray-200 pt-4">
                                             <div class="flex justify-between items-center">
                                                 <span class="text-xl font-bold text-gray-900">Total</span>
@@ -233,7 +221,8 @@
 
                                     <!-- Action Buttons -->
                                     <div>
-                                        <a href="{{ route('home') }}"
+                                        {{-- <a href="{{ route('home') }}" --}}
+                                        <a href="{{ route('checkout.index') }}"
                                             class="block w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white text-center py-4 rounded-xl font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 mb-3">
                                             <div class="flex items-center justify-center">
                                                 <x-icon name="heroicon-o-credit-card" class="h-5 w-5 mr-2" />
@@ -267,11 +256,7 @@
                                                 class="h-4 w-4 text-green-500 mr-3 flex-shrink-0" />
                                             <span>Master Artisan Crafted</span>
                                         </div>
-                                        <div class="flex items-center">
-                                            <x-icon name="heroicon-o-check-circle"
-                                                class="h-4 w-4 text-green-500 mr-3 flex-shrink-0" />
-                                            <span>Free Shipping Nationwide</span>
-                                        </div>
+
                                         <div class="flex items-center">
                                             <x-icon name="heroicon-o-check-circle"
                                                 class="h-4 w-4 text-green-500 mr-3 flex-shrink-0" />

@@ -42,7 +42,7 @@ class Payment extends Model
         return $this->belongsTo(User::class, 'verified_by');
     }
 
-    public function formattedTotalAmount(): Attribute
+    public function formattedAmount(): Attribute
     {
         return Attribute::make(
             get: fn() => 'Rp ' . number_format($this->amount, 0, ',', '.'),

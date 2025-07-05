@@ -12,18 +12,30 @@ enum PaymentMethod: string
     public function label(): string
     {
         return match ($this) {
-            self::BANK_TRANSFER => 'Bank Transfer',
-            self::QRIS => 'QRIS',
-            self::E_WALLET => 'E-Wallet',
-            self::PAY_IN_STORE => 'Pay in Store',
+            self::BANK_TRANSFER     => 'Bank Transfer',
+            self::QRIS              => 'QRIS',
+            self::E_WALLET          => 'E-Wallet',
+            self::PAY_IN_STORE      => 'Pay in Store',
         };
     }
 
     public function requiresProof(): bool
     {
         return match ($this) {
-            self::BANK_TRANSFER, self::QRIS, self::E_WALLET => true,
-            self::PAY_IN_STORE => false,
+            self::BANK_TRANSFER     => true,
+            self::QRIS              => true,
+            self::E_WALLET          => true,
+            self::PAY_IN_STORE      => false,
+        };
+    }
+
+    public function color(): string
+    {
+        return match ($this) {
+            self::BANK_TRANSFER     => 'blue',
+            self::QRIS              => 'red',
+            self::E_WALLET          => 'green',
+            self::PAY_IN_STORE      => 'purple',
         };
     }
 }
