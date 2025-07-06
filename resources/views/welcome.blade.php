@@ -61,7 +61,7 @@
             <div class="text-center mt-12">
                 <a href="{{ route('catalog.index') }}"
                     class="inline-flex items-center bg-amber-500 hover:bg-amber-600 text-white px-8 py-3 rounded-lg font-semibold transition-colors">
-                    View All Products
+                    View All Songket
                     <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
@@ -134,7 +134,7 @@
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                         <div class="absolute bottom-4 left-4 right-4">
                             <h3 class="text-white font-semibold text-lg">{{ $category->name }}</h3>
-                            <p class="text-amber-200 text-sm">{{ $category->songkets_count }} Products</p>
+                            <p class="text-amber-200 text-sm">{{ $category->songkets_count }} Songket</p>
                         </div>
                     </a>
                 @endforeach

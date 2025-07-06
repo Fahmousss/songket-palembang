@@ -29,7 +29,7 @@ class ProcessPaymentController extends Controller
                 'image',
                 'max:2048', // 2MB max file size
                 Rule::requiredIf(fn() => PaymentMethod::from($request->payment_method)->requiresProof()),
-                'mimes:png,jpg',
+                'mimes:png,jpg,jpeg,webp', // Allowed file types
             ],
         ]);
 
@@ -52,9 +52,7 @@ class ProcessPaymentController extends Controller
             $payment = Payment::create([
                 'order_id'                  => $order->id,
                 'payment_method'            => $paymentMethod,
-                'payment_status'            => $paymentMethod === PaymentMethod::PAY_IN_STORE
-                    ? PaymentStatus::PENDING
-                    : PaymentStatus::WAITING_VERIFICATION,
+                'payment_status'            => PaymentStatus::WAITING_VERIFICATION,
                 'amount'                    => $order->total_amount,
                 'payment_proof'             => $paymentProofPath,
                 'payment_date'              => now(),

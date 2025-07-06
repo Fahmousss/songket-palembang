@@ -51,7 +51,7 @@
 
                     <!-- Thumbnail Images -->
                     @if ($songket->images && count($songket->images) > 1)
-                        <div class="flex space-x-2 overflow-x-auto">
+                        <div class="flex space-x-2 p-3 overflow-x-auto">
                             @foreach ($songket->images as $index => $image)
                                 <button @click="activeImage = {{ $index }}"
                                     :class="{ 'ring-2 ring-amber-500': activeImage === {{ $index }} }"
@@ -112,23 +112,6 @@
                         </div>
                     @endif
 
-                    <!-- Size Selection -->
-                    @if ($songket->sizes && count($songket->sizes) > 0)
-                        <div>
-                            <h3 class="text-lg font-semibold text-gray-900 mb-3">Available Sizes</h3>
-                            <div class="flex flex-wrap gap-2">
-                                @foreach ($songket->sizes as $size)
-                                    <button @click="selectedSize = '{{ $size }}'"
-                                        :class="{ 'bg-amber-500 text-white': selectedSize === '{{ $size }}', 'bg-white text-gray-700 hover:bg-gray-50': selectedSize !== '{{ $size }}' }"
-                                        class="px-4 py-2 border border-gray-300 rounded-lg font-medium transition-colors">
-                                        {{ $size }}
-                                    </button>
-                                @endforeach
-                            </div>
-                            <p class="text-sm text-gray-600 mt-2">Selected: <span x-text="selectedSize || 'None'"
-                                    class="font-medium"></span></p>
-                        </div>
-                    @endif
 
                     <!-- Quantity -->
                     <div>
@@ -164,8 +147,6 @@
                             <div x-show="!canAddToCart()" class="text-red-600 text-sm">
                                 <p x-show="!selectedColor && {{ count($songket->colors ?? []) }} > 0">Please select a
                                     color</p>
-                                <p x-show="!selectedSize && {{ count($songket->sizes ?? []) }} > 0">Please select a size
-                                </p>
                             </div>
                         </div>
                     @else
@@ -195,12 +176,7 @@
                                     <dd class="text-gray-900">{{ count($songket->colors) }} options</dd>
                                 </div>
                             @endif
-                            @if ($songket->sizes)
-                                <div class="flex">
-                                    <dt class="text-gray-600 w-24">Sizes:</dt>
-                                    <dd class="text-gray-900">{{ implode(', ', $songket->sizes) }}</dd>
-                                </div>
-                            @endif
+
                         </dl>
                     </div>
                     <!-- Success Modal -->
@@ -310,7 +286,6 @@
         function productDetail() {
             return {
                 selectedColor: @json($songket->colors[0] ?? null),
-                selectedSize: @json($songket->sizes[0] ?? null),
                 quantity: 1,
                 basePrice: {{ $songket->base_price }},
                 errorMessage: '',
@@ -321,10 +296,9 @@
 
                 canAddToCart() {
                     const needsColor = {{ count($songket->colors ?? []) }} > 0;
-                    const needsSize = {{ count($songket->sizes ?? []) }} > 0;
                     const quantityValid = this.quantity > 0 && this.quantity <= {{ $songket->stock_quantity }};
 
-                    return (!needsColor || this.selectedColor) && (!needsSize || this.selectedSize) &&
+                    return (!needsColor || this.selectedColor) &&
                         quantityValid;
                 },
 
@@ -348,7 +322,6 @@
                                 songket_id: {{ $songket->id }},
                                 quantity: this.quantity,
                                 selected_color: this.selectedColor,
-                                selected_size: this.selectedSize,
                                 price: this.currentPrice
                             })
                         });

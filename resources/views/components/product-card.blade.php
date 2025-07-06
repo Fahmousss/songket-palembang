@@ -86,12 +86,6 @@
                 <x-icon name="heroicon-o-cube" class="h-3 w-3 mr-1" />
                 {{ $songket->stock_quantity }} in stock
             </span>
-            @if ($songket->sizes)
-                <span class="flex items-center">
-                    <x-icon name="heroicon-o-squares-plus" class="h-3 w-3 mr-1" />
-                    {{ count($songket->sizes) }} sizes
-                </span>
-            @endif
         </div>
 
         <a href="{{ route('catalog.show', $songket) }}"

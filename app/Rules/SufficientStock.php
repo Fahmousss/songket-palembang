@@ -11,13 +11,11 @@ class SufficientStock implements ValidationRule
 {
     protected $songketId;
     protected $selectedColor;
-    protected $selectedSize;
 
-    public function __construct($songketId, $selectedColor = null, $selectedSize = null)
+    public function __construct($songketId, $selectedColor = null)
     {
         $this->songketId = $songketId;
         $this->selectedColor = $selectedColor;
-        $this->selectedSize = $selectedSize;
     }
 
     /**
@@ -51,7 +49,6 @@ class SufficientStock implements ValidationRule
             $existingItem = Auth::user()->cartItems()
                 ->where('songket_id', $this->songketId)
                 ->where('selected_color', $this->selectedColor)
-                ->where('selected_size', $this->selectedSize)
                 ->first();
 
             if ($existingItem) {

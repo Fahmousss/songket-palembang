@@ -24,10 +24,8 @@ class AddCartItemController extends Controller
                 'quantity'          => ['required', 'integer', 'min:1', 'max:10',  new SufficientStock(
                     $request->songket_id,
                     $request->selected_color,
-                    $request->selected_size
                 )],
                 'selected_color'    => ['nullable', 'string'],
-                'selected_size'     => ['nullable', 'string'],
                 'price'             => ['required', 'numeric', 'min:0'],
             ]);
 
@@ -37,7 +35,6 @@ class AddCartItemController extends Controller
             $existingItem = Auth::user()->cartItems()
                 ->where('songket_id', $request->songket_id)
                 ->where('selected_color', $request->selected_color)
-                ->where('selected_size', $request->selected_size)
                 ->first();
 
             if ($existingItem) {
@@ -49,7 +46,6 @@ class AddCartItemController extends Controller
                     'songket_id'        => $request->songket_id,
                     'quantity'          => $request->quantity,
                     'selected_color'    => $request->selected_color,
-                    'selected_size'     => $request->selected_size,
                     'price'             => $request->price,
                 ]);
             }

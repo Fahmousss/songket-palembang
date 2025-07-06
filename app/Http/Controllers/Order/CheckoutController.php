@@ -74,7 +74,6 @@ class CheckoutController extends Controller
                     'songket_id'        => $cartItem->songket_id,
                     'quantity'          => $cartItem->quantity,
                     'selected_color'    => $cartItem->selected_color,
-                    'selected_size'     => $cartItem->selected_size,
                     'price'             => $cartItem->price,
                     'total_price'       => $cartItem->total_price,
                 ]);

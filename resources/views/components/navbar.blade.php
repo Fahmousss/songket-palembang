@@ -57,9 +57,8 @@
                             <a href="{{ route('orders.index') }}"
                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My
                                 Orders</a>
-                            @if (auth()->user()->isAdmin())
-                                {{-- <a href="{{ route('admin.dashboard') }}" --}}
-                                <a href="{{ route('home') }}"
+                            @if (auth()->user()->canAccess('view_dashboard'))
+                                <a href="{{ route('admin.dashboard') }}" {{-- <a href="{{ route('home') }}" --}}
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Admin Panel</a>
                             @endif
                             <a href="{{ route('profile.edit') }}"

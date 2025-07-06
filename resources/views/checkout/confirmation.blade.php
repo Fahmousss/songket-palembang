@@ -87,12 +87,6 @@
                                                         {{ $item->selected_color }}
                                                     </span>
                                                 @endif
-                                                @if ($item->selected_size)
-                                                    <span class="flex items-center">
-                                                        <x-icon name="heroicon-o-squares-2x2" class="h-3 w-3 mr-1" />
-                                                        {{ $item->selected_size }}
-                                                    </span>
-                                                @endif
                                                 <span class="flex items-center">
                                                     <x-icon name="heroicon-o-hashtag" class="h-3 w-3 mr-1" />
                                                     Qty: {{ $item->quantity }}

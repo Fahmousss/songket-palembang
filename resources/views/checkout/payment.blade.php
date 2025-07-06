@@ -37,6 +37,7 @@
                 <p class="text-lg text-gray-600">Choose your preferred payment method for Order
                     #{{ $order->order_number }}</p>
             </div>
+            <x-session-alerts />
 
             <form method="POST" action="{{ route('checkout.payment.process', $order) }}" enctype="multipart/form-data"
                 class="grid grid-cols-1 lg:grid-cols-3 gap-8" x-data="paymentForm()">
@@ -50,12 +51,6 @@
                                 <x-icon name="heroicon-o-credit-card" class="h-5 w-5 text-amber-600" />
                             </div>
                             <h2 class="text-2xl font-bold text-gray-900">Select Payment Method</h2>
-                            @error('payment_proof')
-                                <p class="mt-4 text-sm text-red-600 flex items-center">
-                                    <x-icon name="heroicon-o-exclamation-circle" class="h-4 w-4 mr-1" />
-                                    {{ $message }}
-                                </p>
-                            @enderror
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -403,7 +398,7 @@
                             <h2 class="text-2xl font-bold text-gray-900">Upload Payment Proof</h2>
                         </div>
 
-                        <div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center">
+                        {{-- <div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center">
                             <input type="file" name="payment_proof" accept="image/*" class="hidden"
                                 x-ref="fileInput" @change="handleFileSelect">
                             <div class="space-y-4">
@@ -424,8 +419,10 @@
                                     Selected: <span x-text="selectedFile"></span>
                                 </div>
                             </div>
-                        </div>
-
+                        </div> --}}
+                        <x-image-upload name="payment_proof" label="Payment Proof" :multiple="false" :max-files="1"
+                            :max-size="2048" accept="image/*" :required="false"
+                            help="Upload your payment receipt, bank transfer confirmation, or e-wallet screenshot. Accepted formats: JPG, PNG(max 2MB)" />
 
                     </div>
                 </div>
@@ -518,11 +515,6 @@
                 selectedMethod: '',
                 selectedFile: '',
                 submitting: false,
-
-                handleFileSelect(event) {
-                    const file = event.target.files[0];
-                    this.selectedFile = file ? file.name : '';
-                },
 
                 init() {
                     this.$el.addEventListener('submit', (e) => {

@@ -150,20 +150,15 @@
                                         <h3 class="font-semibold text-gray-900 mb-1">{{ $item->songket->name }}</h3>
                                         <p class="text-sm text-gray-600 mb-2">{{ $item->songket->category->name }}</p>
 
-                                        @if ($item->selected_color || $item->selected_size)
+                                        @if ($item->selected_color)
                                             <div class="flex items-center space-x-4 text-xs text-gray-500">
-                                                @if ($item->selected_color)
-                                                    <div class="flex items-center space-x-1">
-                                                        <span>Color:</span>
-                                                        <div class="w-3 h-3 rounded-full border border-gray-300"
-                                                            style="background-color: {{ $item->selected_color }}">
-                                                        </div>
-                                                        <span>{{ ucfirst($item->selected_color) }}</span>
+                                                <div class="flex items-center space-x-1">
+                                                    <span>Color:</span>
+                                                    <div class="w-3 h-3 rounded-full border border-gray-300"
+                                                        style="background-color: {{ $item->selected_color }}">
                                                     </div>
-                                                @endif
-                                                @if ($item->selected_size)
-                                                    <span>Size: {{ $item->selected_size }}</span>
-                                                @endif
+                                                    <span>{{ ucfirst($item->selected_color) }}</span>
+                                                </div>
                                             </div>
                                         @endif
                                     </div>

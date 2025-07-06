@@ -1,8 +1,6 @@
 <x-app-layout>
     <x-slot name="title">Shopping Cart - Palembang Songket Store</x-slot>
 
-
-
     <div class="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
         <!-- Header Section -->
         <div class="bg-white shadow-sm border-b border-gray-200">
@@ -91,28 +89,17 @@
                                                                 class="bg-gray-100 px-2 py-1 rounded-lg">{{ $item->songket->category->name }}</span>
                                                         </div>
 
-                                                        @if ($item->selected_color || $item->selected_size)
+                                                        @if ($item->selected_color)
                                                             <div class="flex flex-wrap items-center gap-3 mb-4">
-                                                                @if ($item->selected_color)
-                                                                    <div
-                                                                        class="flex items-center space-x-2 bg-gray-50 px-3 py-2 rounded-lg">
-                                                                        <span
-                                                                            class="text-sm text-gray-600">Color:</span>
-                                                                        <div class="w-4 h-4 rounded-full border-2 border-white shadow-sm ring-1 ring-gray-300"
-                                                                            style="background-color: {{ $item->selected_color }}">
-                                                                        </div>
-                                                                        <span
-                                                                            class="text-sm text-gray-900 font-medium">{{ ucfirst($item->selected_color) }}</span>
+                                                                <div
+                                                                    class="flex items-center space-x-2 bg-gray-50 px-3 py-2 rounded-lg">
+                                                                    <span class="text-sm text-gray-600">Color:</span>
+                                                                    <div class="w-4 h-4 rounded-full border-2 border-white shadow-sm ring-1 ring-gray-300"
+                                                                        style="background-color: {{ $item->selected_color }}">
                                                                     </div>
-                                                                @endif
-                                                                @if ($item->selected_size)
-                                                                    <div
-                                                                        class="flex items-center space-x-2 bg-gray-50 px-3 py-2 rounded-lg">
-                                                                        <span class="text-sm text-gray-600">Size:</span>
-                                                                        <span
-                                                                            class="text-sm text-gray-900 font-medium">{{ $item->selected_size }}</span>
-                                                                    </div>
-                                                                @endif
+                                                                    <span
+                                                                        class="text-sm text-gray-900 font-medium">{{ ucfirst($item->selected_color) }}</span>
+                                                                </div>
                                                             </div>
                                                         @endif
 

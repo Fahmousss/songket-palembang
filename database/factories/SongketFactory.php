@@ -20,7 +20,6 @@ class SongketFactory extends Factory
     {
         $name = 'Songket ' . fake()->unique()->words(3, true);
         $colors = ['#FFD700', '#C0C0C0', '#8B0000', '#000080', '#006400', '#800080', '#4B0082', '#8B4513'];
-        $sizes = ['S', 'M', 'L', 'XL', 'XXL'];
 
         return [
             'category_id' => Category::factory(),
@@ -29,7 +28,6 @@ class SongketFactory extends Factory
             'description' => fake()->paragraphs(3, true),
             'base_price' => fake()->numberBetween(500000, 5000000),
             'colors' => fake()->randomElements($colors, fake()->numberBetween(2, 4)),
-            'sizes' => fake()->randomElements($sizes, fake()->numberBetween(3, 5)),
             'images' => [
                 '/placeholder.svg?height=600&width=600',
                 '/placeholder.svg?height=600&width=600',

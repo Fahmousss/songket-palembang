@@ -21,7 +21,6 @@ class Songket extends Model
         'description',
         'base_price',
         'colors',
-        'sizes',
         'images',
         'is_featured',
         'is_active',
@@ -31,7 +30,6 @@ class Songket extends Model
     protected $casts = [
         'base_price' => 'decimal:2',
         'colors' => 'array',
-        'sizes' => 'array',
         'images' => 'array',
         'is_featured' => 'boolean',
         'is_active' => 'boolean',

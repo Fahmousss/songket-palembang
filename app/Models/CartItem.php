@@ -19,7 +19,6 @@ class CartItem extends Model
         'songket_id',
         'quantity',
         'selected_color',
-        'selected_size',
         'price',
     ];
 

@@ -67,10 +67,6 @@
                                             {{ ucfirst($item->selected_color) }}
                                         </span>
                                     @endif
-                                    @if ($item->selected_size)
-                                        <span
-                                            class="bg-gray-100 px-2 py-0.5 rounded text-xs">{{ $item->selected_size }}</span>
-                                    @endif
                                 </div>
                                 <div class="flex items-center justify-between mt-2">
                                     <span class="text-xs text-gray-500">Qty: {{ $item->quantity }}</span>

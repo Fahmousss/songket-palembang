@@ -17,12 +17,11 @@ return new class extends Migration
             $table->foreignId('songket_id')->constrained()->cascadeOnDelete();
             $table->integer('quantity')->default(1);
             $table->string('selected_color')->nullable();
-            $table->string('selected_size')->nullable();
             $table->decimal('price', 12, 2);
             $table->timestamps();
 
             $table->index(['user_id', 'songket_id']);
-            $table->unique(['user_id', 'songket_id', 'selected_color', 'selected_size'], 'cart_items_unique');
+            $table->unique(['user_id', 'songket_id', 'selected_color'], 'cart_items_unique');
         });
     }
 

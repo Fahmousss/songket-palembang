@@ -34,20 +34,18 @@
                         </a>
                     </div>
                 </div>
-            @elseif($order->payment->payment_status->value === 'waiting_verification')
-                <div class="bg-yellow-50 border border-yellow-200 rounded-2xl p-6 mb-8">
+            @endif
+
+            <!-- Cancellation Alert -->
+            @if ($order->status->value === 'canceled')
+                <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 mb-8">
                     <div class="flex items-center">
-                        <x-icon name="heroicon-o-clock" class="h-8 w-8 text-yellow-600 mr-4" />
-                        <div class="flex-1">
-                            <h3 class="text-lg font-semibold text-yellow-900">Payment Under Verification</h3>
-                            <p class="text-yellow-700 mt-1">We're verifying your payment. This usually takes 1-2
-                                business hours.</p>
+                        <x-icon name="heroicon-o-x-circle" class="h-8 w-8 text-gray-600 mr-4" />
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">Order Cancelled</h3>
+                            <p class="text-gray-700 mt-1">This order has been cancelled. If you paid for this order, a
+                                refund will be processed within 3-5 business days.</p>
                         </div>
-                        <a href="{{ route('checkout.payment', $order) }}"
-                            class="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-xl font-semibold transition-colors flex items-center">
-                            <x-icon name="heroicon-o-arrow-path" class="h-5 w-5 mr-2" />
-                            Update Payment
-                        </a>
                     </div>
                 </div>
             @endif
@@ -77,48 +75,72 @@
                                 $currentStatusIndex !== false
                                     ? (($currentStatusIndex + 1) / count($statusOrder)) * 100
                                     : 0;
+
+                            // Handle cancelled status
+                            if ($order->status->value === 'canceled') {
+                                $progressPercentage = 0;
+                            }
                         @endphp
 
                         <!-- Progress Bar -->
                         <div class="mb-8">
                             <div class="w-full bg-gray-200 rounded-full h-2">
-                                <div class="bg-gradient-to-r from-amber-500 to-orange-500 h-2 rounded-full transition-all duration-500"
+                                <div class="bg-gradient-to-r {{ $order->status->value === 'canceled' ? 'from-red-500 to-red-600' : 'from-amber-500 to-orange-500' }} h-2 rounded-full transition-all duration-500"
                                     style="width: {{ $progressPercentage }}%"></div>
                             </div>
-                            <p class="text-sm text-gray-600 mt-2">{{ round($progressPercentage) }}% Complete</p>
+                            <p class="text-sm text-gray-600 mt-2">
+                                @if ($order->status->value === 'canceled')
+                                    Order Cancelled
+                                @else
+                                    {{ round($progressPercentage) }}% Complete
+                                @endif
+                            </p>
                         </div>
 
                         <!-- Status Timeline -->
                         <div class="space-y-4">
-                            @foreach ($statuses as $statusKey => $statusLabel)
-                                @php
-                                    $statusIndex = array_search($statusKey, $statusOrder);
-                                    $isCompleted = $statusIndex <= $currentStatusIndex;
-                                    $isCurrent = $statusKey === $order->status->value;
-                                @endphp
-
+                            @if ($order->status->value === 'canceled')
                                 <div class="flex items-center">
                                     <div
-                                        class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center {{ $isCompleted ? 'bg-green-500 text-white' : ($isCurrent ? 'bg-amber-500 text-white' : 'bg-gray-200 text-gray-500') }}">
-                                        @if ($isCompleted && !$isCurrent)
-                                            <x-icon name="heroicon-o-check" class="h-4 w-4" />
-                                        @else
-                                            <span class="text-sm font-bold">{{ $statusIndex + 1 }}</span>
-                                        @endif
+                                        class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center bg-red-500 text-white">
+                                        <x-icon name="heroicon-o-x-mark" class="h-4 w-4" />
                                     </div>
                                     <div class="ml-4 flex-1">
-                                        <p
-                                            class="font-semibold {{ $isCurrent ? 'text-amber-600' : ($isCompleted ? 'text-green-600' : 'text-gray-500') }}">
-                                            {{ $statusLabel }}
-                                        </p>
-                                        @if ($isCurrent)
-                                            <p class="text-sm text-gray-600">Current status</p>
-                                        @elseif($isCompleted)
-                                            <p class="text-sm text-gray-600">Completed</p>
-                                        @endif
+                                        <p class="font-semibold text-red-600">Order Cancelled</p>
+                                        <p class="text-sm text-gray-600">This order has been cancelled</p>
                                     </div>
                                 </div>
-                            @endforeach
+                            @else
+                                @foreach ($statuses as $statusKey => $statusLabel)
+                                    @php
+                                        $statusIndex = array_search($statusKey, $statusOrder);
+                                        $isCompleted = $statusIndex <= $currentStatusIndex;
+                                        $isCurrent = $statusKey === $order->status->value;
+                                    @endphp
+
+                                    <div class="flex items-center">
+                                        <div
+                                            class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center {{ $isCompleted ? 'bg-green-500 text-white' : ($isCurrent ? 'bg-amber-500 text-white' : 'bg-gray-200 text-gray-500') }}">
+                                            @if ($isCompleted && !$isCurrent)
+                                                <x-icon name="heroicon-o-check" class="h-4 w-4" />
+                                            @else
+                                                <span class="text-sm font-bold">{{ $statusIndex + 1 }}</span>
+                                            @endif
+                                        </div>
+                                        <div class="ml-4 flex-1">
+                                            <p
+                                                class="font-semibold {{ $isCurrent ? 'text-amber-600' : ($isCompleted ? 'text-green-600' : 'text-gray-500') }}">
+                                                {{ $statusLabel }}
+                                            </p>
+                                            @if ($isCurrent)
+                                                <p class="text-sm text-gray-600">Current status</p>
+                                            @elseif($isCompleted)
+                                                <p class="text-sm text-gray-600">Completed</p>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
                         </div>
                     </div>
 
@@ -315,6 +337,41 @@
                         </div>
                     @endif
 
+                    <!-- Order Actions -->
+                    @php
+                        // use App\Rules\StatusCanBeChanged;
+                        // use App\Enums\OrderStatus;
+                        $allowedTransitions = App\Rules\StatusCanBeChanged::getAllowedTransitions(
+                            $order->status,
+                            'order',
+                        );
+                        $canCancel = in_array(App\Enums\OrderStatus::CANCELLED->value, $allowedTransitions);
+                    @endphp
+
+                    @if ($canCancel)
+                        <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                            <div class="bg-gradient-to-r from-red-500 to-red-600 p-6 text-white">
+                                <h2 class="text-xl font-bold flex items-center">
+                                    <x-icon name="heroicon-o-exclamation-triangle" class="h-5 w-5 mr-2" />
+                                    Order Actions
+                                </h2>
+                            </div>
+                            <div class="p-6">
+                                <div class="space-y-4">
+                                    <p class="text-sm text-gray-600">
+                                        You can cancel this order if you no longer need it. If you've already paid, a
+                                        refund will be processed within 3-5 business days.
+                                    </p>
+                                    <button onclick="openCancelModal()"
+                                        class="w-full bg-red-600 hover:bg-red-700 text-white px-4 py-3 rounded-lg font-medium transition-colors flex items-center justify-center">
+                                        <x-icon name="heroicon-o-x-circle" class="h-5 w-5 mr-2" />
+                                        Cancel Order
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
                     <!-- Store Information -->
                     <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
                         <div class="bg-gradient-to-r from-green-500 to-teal-500 p-6 text-white">
@@ -359,4 +416,86 @@
             </div>
         </div>
     </div>
+
+    <!-- Cancel Order Modal -->
+    @if ($canCancel)
+        <div id="cancelModal"
+            class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
+                            <x-icon name="heroicon-o-exclamation-triangle" class="h-6 w-6 text-red-600" />
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-900">Cancel Order</h3>
+                            <p class="text-sm text-gray-600">Order #{{ $order->order_number }}</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <p class="text-gray-700 mb-4">
+                            Are you sure you want to cancel this order? This action cannot be undone.
+                        </p>
+                        @if ($order->payment && $order->payment->payment_status->value === 'paid')
+                            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                                <div class="flex items-start">
+                                    <x-icon name="heroicon-o-information-circle"
+                                        class="h-5 w-5 text-yellow-600 mr-2 mt-0.5" />
+                                    <div>
+                                        <p class="text-sm text-yellow-800 font-medium">Refund Information</p>
+                                        <p class="text-sm text-yellow-700 mt-1">
+                                            Since you've already paid for this order, a refund will be processed within
+                                            3-5 business days.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+
+                    <div class="flex space-x-3">
+                        <button onclick="closeCancelModal()"
+                            class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg font-medium transition-colors">
+                            Keep Order
+                        </button>
+                        <form method="POST" action="{{ route('orders.cancel', $order) }}" class="flex-1">
+                            @csrf
+                            <input type="hidden" name="status" value="canceled">
+                            <button type="submit"
+                                class="w-full bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                                Yes, Cancel Order
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function openCancelModal() {
+                document.getElementById('cancelModal').classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeCancelModal() {
+                document.getElementById('cancelModal').classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+
+            // Close modal when clicking outside
+            document.getElementById('cancelModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeCancelModal();
+                }
+            });
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeCancelModal();
+                }
+            });
+        </script>
+    @endif
 </x-app-layout>

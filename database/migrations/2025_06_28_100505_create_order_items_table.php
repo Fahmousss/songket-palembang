@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreignId('songket_id')->constrained()->cascadeOnDelete();
             $table->integer('quantity')->default(1);
             $table->string('selected_color')->nullable();
-            $table->string('selected_size')->nullable();
             $table->decimal('price', 12, 2)->default(0.00);
             $table->decimal('total_price', 12, 2)->default(0.00);
             $table->timestamps();

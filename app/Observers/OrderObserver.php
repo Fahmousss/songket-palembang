@@ -30,18 +30,13 @@ class OrderObserver
             $originalStatus = OrderStatus::from($order->getOriginal('status')->value);
             $newStatus = $order->status;
 
-            // If status changed to pending_payment, decrease stock
+            // If status changed to pending, decrease stock
             if ($newStatus === OrderStatus::PENDING_PAYMENT && $originalStatus !== OrderStatus::PENDING_PAYMENT) {
                 $this->decreaseStock($order);
             }
 
             // If order was cancelled, restore stock
-            if ($newStatus === OrderStatus::CANCELLED && $originalStatus !== OrderStatus::CANCELLED) {
-                $this->restoreStock($order);
-            }
-
-            // If order was changed from pending_payment to cancelled, restore stock
-            if ($originalStatus === OrderStatus::PENDING_PAYMENT && $newStatus === OrderStatus::CANCELLED) {
+            if ($newStatus === OrderStatus::CANCELLED && $originalStatus !== OrderStatus::CANCELLED && $originalStatus !== OrderStatus::PENDING) {
                 $this->restoreStock($order);
             }
         }
@@ -87,6 +82,8 @@ class OrderObserver
     public function deleted(Order $order): void
     {
         // If order is deleted, restore stock
-        $this->restoreStock($order);
+        if ($order->status === OrderStatus::PENDING) {
+            $this->restoreStock($order);
+        }
     }
 }

@@ -54,6 +54,10 @@
                                                     <x-icon name="heroicon-o-check-badge" class="h-4 w-4 mr-1" />
                                                 @break
 
+                                                @case('canceled')
+                                                    <x-icon name="heroicon-o-x-circle" class="h-4 w-4 mr-1" />
+                                                @break
+
                                                 @default
                                                     <x-icon name="heroicon-o-question-mark-circle" class="h-4 w-4 mr-1" />
                                             @endswitch

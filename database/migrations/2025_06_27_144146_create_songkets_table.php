@@ -19,7 +19,6 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->decimal('base_price',  10, 2)->default(0.00);
             $table->json('colors')->nullable();
-            $table->json('sizes')->nullable();
             $table->json('images')->nullable();
             $table->boolean('is_featured')->default(false);
             $table->boolean('is_active')->default(true);
