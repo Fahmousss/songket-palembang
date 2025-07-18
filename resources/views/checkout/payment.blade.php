@@ -348,7 +348,7 @@
                                                 Store Address
                                             </h4>
                                             <p class="text-sm text-gray-600">
-                                                Jl. Sudirman No. 123<br>
+                                                Jl. X<br>
                                                 Palembang, South Sumatra 30126
                                             </p>
                                         </div>

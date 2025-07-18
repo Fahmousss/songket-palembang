@@ -263,7 +263,7 @@
                                 <x-icon name="heroicon-o-map-pin" class="h-5 w-5 text-gray-400 mt-0.5" />
                                 <div>
                                     <p class="text-sm text-gray-600">Address</p>
-                                    <p class="font-semibold text-gray-900">Jl. Sudirman No. 123<br>Palembang, South
+                                    <p class="font-semibold text-gray-900">Jl. X<br>Palembang, South
                                         Sumatra 30126</p>
                                 </div>
                             </div>
